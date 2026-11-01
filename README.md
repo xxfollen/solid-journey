@@ -12,11 +12,11 @@ Possui **duas versões com abas completamente separadas** acessíveis via autent
 
 Todos os integrantes possuem igualdade total de acesso e permissões (sem hierarquia de líder).
 
-| Integrante | E-mail de Acesso | Senha Inicial |
+| Integrante |
 | :--- | :--- | :--- |
-| **Emmanuel Leocadio** | `leocadio.cmc@gmail.com` | `123456` |
-| **Enzo Pacificco** | `epacificco.cmc@gmail.com` | `123456` |
-| **Henrique Trindade (Aratanha)** | `htrindade.cmc@gmail.com` | `123456` |
+| **Pessoa 1** |
+| **Pessoa 2** |
+| **Pessoa 3** |
 
 *Cada usuário pode alterar sua própria senha, nome e avatar a qualquer momento clicando no botão de **Configurações da Conta** no menu superior.*
 
@@ -35,9 +35,9 @@ Todos os integrantes possuem igualdade total de acesso e permissões (sem hierar
 ### 👥 2. Versão em Conjunto (3 Pessoas)
 - **Streak Coletivo do Trio 🔥**: Contagem unificada que cresce apenas com a cooperação e comprometimento dos 3 membros.
 - **Cards de Status dos 3 Integrantes**:
-  - Emmanuel (Você)
-  - Enzo (EnzoPacificco)
-  - Aratanha (Aratanha)
+  - Pessoa 1
+  - Pessoa 2
+  - Pessoa 3
 - **Metas Conjuntas com Check-in Individual**: Cada integrante marca a sua própria tarefa na lista (ex: "Treino de 30m", "Sprint de Estudos 1h", "Standup Diário").
 - **Mural de Atividades & Incentivos**: Feed dinâmico com reações em tempo real (🔥, 👏, ⚡, 💪) e botão de cutucar/cobrar.
 - **Pódio de Consistência**: Ranking com medalhas de ouro, prata e bronze baseado na taxa de conclusão.
@@ -58,7 +58,7 @@ Basta dar dois cliques no arquivo `start.bat` dentro da pasta `streak-web`.
 
 ### Opção 2: Pelo Terminal / PowerShell
 ```bash
-cd "C:\Users\Emmanuel\.gemini\antigravity\scratch\streak-web"
+cd "C:\Users\User\.gemini\antigravity\scratch\streak-web"
 npm.cmd run dev
 ```
 
