@@ -63,3 +63,5 @@ npm.cmd run dev
 ```
 
 Abra o navegador no endereço indicado (geralmente [http://localhost:5173](http://localhost:5173)).
+
+Ou acesse o site (https://solid-journey-j105.onrender.com/)
