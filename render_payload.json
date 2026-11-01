@@ -1,0 +1,11 @@
+{
+  "type": "static_site",
+  "name": "streak-tasks",
+  "ownerId": "tea-dbjjuo6tlv9c73detp6g",
+  "repo": "https://github.com/xxfollen/solid-journey",
+  "branch": "main",
+  "serviceDetails": {
+    "buildCommand": "npm install && npm run build",
+    "publishPath": "dist"
+  }
+}

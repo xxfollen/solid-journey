@@ -8,6 +8,20 @@ Possui **duas versões com abas completamente separadas** acessíveis via autent
 
 ---
 
+## 🔐 Contas & Acesso (Os 3 Integrantes)
+
+Todos os integrantes possuem igualdade total de acesso e permissões (sem hierarquia de líder).
+
+| Integrante | E-mail de Acesso | Senha Inicial |
+| :--- | :--- | :--- |
+| **Emmanuel Leocadio** | `leocadio.cmc@gmail.com` | `123456` |
+| **Enzo Pacificco** | `epacificco.cmc@gmail.com` | `123456` |
+| **Henrique Trindade (Aratanha)** | `htrindade.cmc@gmail.com` | `123456` |
+
+*Cada usuário pode alterar sua própria senha, nome e avatar a qualquer momento clicando no botão de **Configurações da Conta** no menu superior.*
+
+---
+
 ## ✨ Principais Funcionalidades
 
 ### 👤 1. Versão Exclusiva (Minha Rotina)

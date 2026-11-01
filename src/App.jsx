@@ -3,7 +3,8 @@ import Navbar from './components/Navbar';
 import PersonalView from './components/PersonalView';
 import TeamView from './components/TeamView';
 import HabitModal from './components/HabitModal';
-import LoginModal from './components/LoginModal';
+import LoginPage from './components/LoginPage';
+import AccountSettingsModal from './components/AccountSettingsModal';
 import PomodoroModal from './components/PomodoroModal';
 import {
   loadAppData,
@@ -14,14 +15,14 @@ import {
   INITIAL_ACTIVITY_FEED,
   getIsoDate,
 } from './utils/storage';
-import { Flame, Shield, Users, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { Flame, RefreshCw } from 'lucide-react';
 
 export default function App() {
   const [data, setData] = useState(() => loadAppData());
   const [activeTab, setActiveTab] = useState('personal'); // 'personal' | 'team'
 
   // Modal states
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isHabitModalOpen, setIsHabitModalOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState(null);
   const [isPomodoroOpen, setIsPomodoroOpen] = useState(false);
@@ -29,11 +30,13 @@ export default function App() {
 
   // Active current user
   const currentUser = useMemo(() => {
-    return data.users.find((u) => u.id === data.currentUserId) || data.users[0];
+    if (!data.currentUserId) return null;
+    return data.users.find((u) => u.id === data.currentUserId) || null;
   }, [data.users, data.currentUserId]);
 
   // Personal habits for the current active user
   const currentPersonalHabits = useMemo(() => {
+    if (!data.currentUserId) return [];
     return data.personalHabits[data.currentUserId] || [];
   }, [data.personalHabits, data.currentUserId]);
 
@@ -50,6 +53,31 @@ export default function App() {
   useEffect(() => {
     saveAppData(data);
   }, [data]);
+
+  // Login handler
+  const handleLoginSuccess = (userId) => {
+    setData((prev) => ({
+      ...prev,
+      currentUserId: userId,
+    }));
+  };
+
+  // Logout handler
+  const handleLogout = () => {
+    setIsSettingsOpen(false);
+    setData((prev) => ({
+      ...prev,
+      currentUserId: null,
+    }));
+  };
+
+  // Update User Account (password, name, avatar)
+  const handleUpdateUser = (updatedUser) => {
+    setData((prev) => ({
+      ...prev,
+      users: prev.users.map((u) => (u.id === updatedUser.id ? updatedUser : u)),
+    }));
+  };
 
   // Toggle personal habit check-in for today
   const handleTogglePersonalToday = (habitId) => {
@@ -89,7 +117,7 @@ export default function App() {
 
       // Add to feed if completed
       let newFeed = prev.feed;
-      if (isDoneNow && completedHabitTitle) {
+      if (isDoneNow && completedHabitTitle && currentUser) {
         newFeed = [
           {
             id: `feed_${Date.now()}`,
@@ -117,20 +145,21 @@ export default function App() {
     });
   };
 
-  // Add personal habit
+  // Add/Edit personal habit
   const handleSavePersonalHabit = (habitData) => {
     setData((prev) => {
       const userList = prev.personalHabits[prev.currentUserId] || [];
       let updatedList;
 
       if (habitData.id) {
-        // Edit
         updatedList = userList.map((h) => (h.id === habitData.id ? { ...h, ...habitData } : h));
       } else {
-        // Create
         const newHabit = {
           ...habitData,
           id: `ph_${Date.now()}`,
+          currentStreak: 0,
+          bestStreak: 0,
+          history: {},
         };
         updatedList = [newHabit, ...userList];
       }
@@ -203,7 +232,7 @@ export default function App() {
           completedHabitTitle = habit.title;
         }
 
-        // Recalculate if all members completed today
+        // Check if all 3 members completed today
         const allCompleted = prev.users.every((u) => currentDayCompletions[u.id]);
         let newTeamStreak = habit.teamStreak || 0;
         let newBestTeamStreak = habit.bestTeamStreak || 0;
@@ -226,7 +255,7 @@ export default function App() {
 
       // Add to feed
       let newFeed = prev.feed;
-      if (isDoneNow && completedHabitTitle) {
+      if (isDoneNow && completedHabitTitle && currentUser) {
         newFeed = [
           {
             id: `feed_${Date.now()}`,
@@ -259,8 +288,8 @@ export default function App() {
         {
           ...newHabit,
           id: `th_${Date.now()}`,
-          teamStreak: 1,
-          bestTeamStreak: 1,
+          teamStreak: 0,
+          bestTeamStreak: 0,
           dailyCompletions: {
             [getIsoDate(0)]: { [prev.currentUserId]: true },
           },
@@ -309,56 +338,24 @@ export default function App() {
     alert(`Incentivo enviado para ${targetUser.name} no mural! 🔥`);
   };
 
-  // Select user
-  const handleSelectUser = (userId) => {
-    setData((prev) => ({
-      ...prev,
-      currentUserId: userId,
-    }));
-  };
-
-  // Create new user profile
-  const handleCreateUser = (newUser) => {
-    const id = `u_${Date.now()}`;
-    setData((prev) => ({
-      ...prev,
-      users: [...prev.users, { ...newUser, id }],
-      currentUserId: id,
-      personalHabits: {
-        ...prev.personalHabits,
-        [id]: [
-          {
-            id: `ph_${Date.now()}_1`,
-            title: 'Minha Primeira Rotina',
-            description: 'Construa sua sequência diária com foco total',
-            category: 'Saúde',
-            color: '#f97316',
-            icon: '🔥',
-            currentStreak: 1,
-            bestStreak: 1,
-            streakFreeze: 2,
-            timeOfDay: 'Manhã',
-            createdAt: getIsoDate(0),
-            history: { [getIsoDate(0)]: true },
-          },
-        ],
-      },
-    }));
-  };
-
-  // Reset to initial demo data
+  // Reset to clean 0-streak data
   const handleResetData = () => {
-    if (confirm('Deseja resetar os dados do Streak para as configurações iniciais de demonstração?')) {
+    if (confirm('Deseja resetar todos os dados para o estado inicial limpo (streaks zerados)?')) {
       localStorage.clear();
       setData({
         users: INITIAL_USERS,
-        currentUserId: 'u1',
+        currentUserId: null,
         personalHabits: INITIAL_PERSONAL_HABITS,
         teamHabits: INITIAL_TEAM_HABITS,
         feed: INITIAL_ACTIVITY_FEED,
       });
     }
   };
+
+  // If user is not logged in, render the clean Login Page
+  if (!currentUser) {
+    return <LoginPage users={data.users} onLoginSuccess={handleLoginSuccess} />;
+  }
 
   return (
     <div className="min-h-screen bg-[#090b10] text-slate-100 flex flex-col font-sans">
@@ -367,7 +364,8 @@ export default function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         currentUser={currentUser}
-        onOpenLogin={() => setIsLoginOpen(true)}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        onLogout={handleLogout}
         onOpenPomodoro={() => {
           setPomodoroTargetHabit(currentPersonalHabits[0]?.title || null);
           setIsPomodoroOpen(true);
@@ -431,13 +429,13 @@ export default function App() {
             <button
               onClick={handleResetData}
               className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
-              title="Restaurar dados padrão de demonstração"
+              title="Restaurar dados limpos (zerar tudo)"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Restaurar Demonstração</span>
+              <span>Zerar Dados</span>
             </button>
             <span>•</span>
-            <span className="text-slate-400 font-mono">Versão Web 2.0</span>
+            <span className="text-slate-400 font-mono">Streak Web v3.0</span>
           </div>
         </div>
       </footer>
@@ -453,13 +451,12 @@ export default function App() {
         initialData={editingHabit}
       />
 
-      <LoginModal
-        isOpen={isLoginOpen}
-        onClose={() => setIsLoginOpen(false)}
-        users={data.users}
-        currentUserId={data.currentUserId}
-        onSelectUser={handleSelectUser}
-        onCreateUser={handleCreateUser}
+      <AccountSettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        currentUser={currentUser}
+        onUpdateUser={handleUpdateUser}
+        onLogout={handleLogout}
       />
 
       <PomodoroModal

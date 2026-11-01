@@ -1,17 +1,18 @@
 import React from 'react';
-import { Flame, Users, User, Timer, Sparkles, LogIn, ChevronDown, Trophy } from 'lucide-react';
+import { Flame, Users, User, Timer, Trophy, Settings, LogOut } from 'lucide-react';
 
 export default function Navbar({
   activeTab,
   setActiveTab,
   currentUser,
-  onOpenLogin,
+  onOpenSettings,
+  onLogout,
   onOpenPomodoro,
   personalStreakTotal = 0,
   teamStreakTotal = 0,
 }) {
   return (
-    <header className="sticky top-0 z-40 bg-[#090b10]/90 backdrop-blur-xl border-b border-white/10">
+    <header className="sticky top-0 z-40 bg-[#090b10]/90 backdrop-blur-xl border-b border-white/10 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           
@@ -26,11 +27,11 @@ export default function Navbar({
                   STREAK
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-widest bg-orange-500/10 text-orange-400 border border-orange-500/20 px-2 py-0.5 rounded-full">
-                  PRO
+                  TRIO
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 hidden sm:block">
-                InlitX Style • Rastreador de Rotinas & Hábitos
+                InlitX Style • Rotinas Diárias & Consistência
               </p>
             </div>
           </div>
@@ -97,29 +98,41 @@ export default function Navbar({
               </div>
             </div>
 
-            {/* Current User Profile Switcher */}
-            <button
-              onClick={onOpenLogin}
-              className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-2 rounded-xl bg-[#141722] hover:bg-[#1a1f2e] border border-white/10 text-left transition-all group"
-            >
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-base border border-white/10"
-                style={{ backgroundColor: `${currentUser?.color || '#f97316'}22` }}
+            {/* Current User Profile & Settings */}
+            <div className="flex items-center gap-1 bg-[#141722] border border-white/10 p-1 sm:px-2 rounded-2xl">
+              <button
+                onClick={onOpenSettings}
+                className="flex items-center gap-2 p-1 rounded-xl hover:bg-white/5 text-left transition-all group"
+                title="Abrir configurações e alterar senha"
               >
-                <span>{currentUser?.avatar || '👤'}</span>
-              </div>
-              <div className="hidden sm:block">
-                <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-white group-hover:text-orange-400 transition-colors">
-                    {currentUser?.name || 'Emmanuel'}
-                  </span>
-                  <ChevronDown className="w-3 h-3 text-slate-500 group-hover:text-slate-300" />
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-base border border-white/10"
+                  style={{ backgroundColor: `${currentUser?.color || '#f97316'}22` }}
+                >
+                  <span>{currentUser?.avatar || '👤'}</span>
                 </div>
-                <span className="text-[10px] text-slate-400 block -mt-0.5">
-                  Trocar Perfil
-                </span>
-              </div>
-            </button>
+                <div className="hidden sm:block">
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-bold text-white group-hover:text-orange-400 transition-colors">
+                      {currentUser?.name || 'Membro'}
+                    </span>
+                    <Settings className="w-3 h-3 text-slate-500 group-hover:text-slate-300" />
+                  </div>
+                  <span className="text-[10px] text-slate-400 block -mt-0.5">
+                    Configurar Conta
+                  </span>
+                </div>
+              </button>
+
+              <button
+                onClick={onLogout}
+                className="p-2 text-slate-400 hover:text-rose-400 rounded-xl hover:bg-rose-500/10 transition-colors"
+                title="Sair da Conta (Logout)"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+
           </div>
 
         </div>

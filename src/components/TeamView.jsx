@@ -132,7 +132,7 @@ export default function TeamView({
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
               <span>Desafio do Trio</span>
               <span className="text-base font-normal text-slate-400">
-                (Emmanuel, Enzo e Aratanha)
+                (Emmanuel, Enzo e Henrique)
               </span>
             </h2>
             
@@ -468,7 +468,7 @@ export default function TeamView({
                         <div>
                           <h5 className="text-xs font-bold text-white">{u.name}</h5>
                           <span className="text-[10px] text-slate-400">
-                            {idx === 0 ? 'Líder da Semana' : 'Foco Constante'}
+                            Foco do Dia
                           </span>
                         </div>
                       </div>
