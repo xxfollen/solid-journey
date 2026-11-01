@@ -20,20 +20,20 @@ export const INITIAL_USERS = [
   },
   {
     id: 'u2',
-    name: 'Lucas',
-    email: 'lucas@streak.app',
+    name: 'Enzo',
+    email: 'enzo@streak.app',
     avatar: '⚡',
-    role: 'Design & Foco',
+    role: 'Colaborador (EnzoPacificco)',
     color: '#06b6d4', // cyan
     colorClass: 'cyan',
     isCurrentUser: false,
   },
   {
     id: 'u3',
-    name: 'Beatriz',
-    email: 'beatriz@streak.app',
+    name: 'Aratanha',
+    email: 'aratanha@streak.app',
     avatar: '🎯',
-    role: 'Estratégia & Saúde',
+    role: 'Colaborador (Aratanha)',
     color: '#10b981', // emerald
     colorClass: 'emerald',
     isCurrentUser: false,
@@ -277,7 +277,7 @@ export const INITIAL_ACTIVITY_FEED = [
   {
     id: 'feed_1',
     userId: 'u3',
-    userName: 'Beatriz',
+    userName: 'Aratanha',
     avatar: '🎯',
     action: 'concluiu o hábito',
     target: 'Meditação Mindfulness 15m',
@@ -299,7 +299,7 @@ export const INITIAL_ACTIVITY_FEED = [
   {
     id: 'feed_3',
     userId: 'u2',
-    userName: 'Lucas',
+    userName: 'Enzo',
     avatar: '⚡',
     action: 'completou a tarefa conjunta',
     target: 'Standup Diário / Alinhamento de Foco',
@@ -319,7 +319,18 @@ const KEY_FEED = 'streak_activity_feed';
 export function loadAppData() {
   try {
     const rawUsers = localStorage.getItem(KEY_USERS);
-    const users = rawUsers ? JSON.parse(rawUsers) : INITIAL_USERS;
+    let users = rawUsers ? JSON.parse(rawUsers) : INITIAL_USERS;
+
+    // Migrate old names if present
+    users = users.map((u) => {
+      if (u.id === 'u2' && (u.name === 'Lucas' || !u.name)) {
+        return { ...u, name: 'Enzo', role: 'Colaborador (EnzoPacificco)' };
+      }
+      if (u.id === 'u3' && (u.name === 'Beatriz' || !u.name)) {
+        return { ...u, name: 'Aratanha', role: 'Colaborador (Aratanha)' };
+      }
+      return u;
+    });
 
     const currentUserId = localStorage.getItem(KEY_CURRENT_USER) || 'u1';
 
@@ -330,7 +341,12 @@ export function loadAppData() {
     const teamHabits = rawTeam ? JSON.parse(rawTeam) : INITIAL_TEAM_HABITS;
 
     const rawFeed = localStorage.getItem(KEY_FEED);
-    const feed = rawFeed ? JSON.parse(rawFeed) : INITIAL_ACTIVITY_FEED;
+    let feed = rawFeed ? JSON.parse(rawFeed) : INITIAL_ACTIVITY_FEED;
+    feed = feed.map((f) => {
+      if (f.userId === 'u2' && f.userName === 'Lucas') return { ...f, userName: 'Enzo' };
+      if (f.userId === 'u3' && f.userName === 'Beatriz') return { ...f, userName: 'Aratanha' };
+      return f;
+    });
 
     return { users, currentUserId, personalHabits, teamHabits, feed };
   } catch (e) {

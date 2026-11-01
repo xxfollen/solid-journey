@@ -4,7 +4,7 @@ Aplicativo web completo de gerenciamento de tarefas, rotinas e hábitos inspirad
 
 Possui **duas versões com abas completamente separadas** acessíveis via autenticação/login:
 1. **Versão Exclusiva (Pessoal)**: Área 100% privada para o usuário logado acompanhar suas rotinas diárias, histórico, heatmap de atividade visual e bater recordes de sequência inquebrável.
-2. **Versão em Conjunto (Time de 3 Pessoas)**: Painel colaborativo para o trio (Emmanuel, Lucas e Beatriz), com meta compartilhada onde **o streak do time só avança se os 3 cumprirem suas tarefas**, feed de incentivos e pódio de consistência.
+2. **Versão em Conjunto (Time de 3 Pessoas)**: Painel colaborativo para o trio (Emmanuel, Enzo e Aratanha), com meta compartilhada onde **o streak do time só avança se os 3 cumprirem suas tarefas**, feed de incentivos e pódio de consistência.
 
 ---
 
@@ -22,8 +22,8 @@ Possui **duas versões com abas completamente separadas** acessíveis via autent
 - **Streak Coletivo do Trio 🔥**: Contagem unificada que cresce apenas com a cooperação e comprometimento dos 3 membros.
 - **Cards de Status dos 3 Integrantes**:
   - Emmanuel (Você)
-  - Lucas
-  - Beatriz
+  - Enzo (EnzoPacificco)
+  - Aratanha (Aratanha)
 - **Metas Conjuntas com Check-in Individual**: Cada integrante marca a sua própria tarefa na lista (ex: "Treino de 30m", "Sprint de Estudos 1h", "Standup Diário").
 - **Mural de Atividades & Incentivos**: Feed dinâmico com reações em tempo real (🔥, 👏, ⚡, 💪) e botão de cutucar/cobrar.
 - **Pódio de Consistência**: Ranking com medalhas de ouro, prata e bronze baseado na taxa de conclusão.

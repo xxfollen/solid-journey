@@ -132,7 +132,7 @@ export default function TeamView({
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
               <span>Desafio do Trio</span>
               <span className="text-base font-normal text-slate-400">
-                (Emmanuel, Lucas e Beatriz)
+                (Emmanuel, Enzo e Aratanha)
               </span>
             </h2>
             
